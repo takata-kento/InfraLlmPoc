@@ -1,0 +1,10 @@
+name: EnvLlm
+runtime:
+  name: nodejs
+  options:
+    packagemanager: npm
+description: Creating AWS LLM environment using TypeScript
+config:
+  pulumi:tags:
+    value:
+      pulumi:template: aws-typescript
