@@ -1,6 +1,6 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as aws from "@pulumi/aws";
-import * as awsx from "@pulumi/awsx";
+import * as lambda from "./Resources/Lambda/lambda";
 
 
 const config = new pulumi.Config();
@@ -17,3 +17,9 @@ const provider = new aws.Provider("privileged", {
     },
     region: aws.config.requireRegion(),
 });
+
+// Lambdaの作成
+const iamRole = "RoleLambdaAppLlmPoc";
+const lambdaResourceSetting = new lambda.ResourceLambda(iamRole, "funcLlmPoc", "./Resources/Lambda/LambdaSrc/python/lambdaFunc.py");
+const lambdaFunc = lambdaResourceSetting.create(provider);
+export const funcId = lambdaFunc?.id;
