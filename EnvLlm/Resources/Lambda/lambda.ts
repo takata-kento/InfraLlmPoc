@@ -22,7 +22,7 @@ export class ResourceLambda {
      * Lambdaランタイム
      * 基本的にpythonのみを想定しているため固定
      */
-    private readonly RUNTIME = "python3.7";
+    private readonly RUNTIME = "python3.12";
 
     /**
      * Lambdaリソースを作成するための初期化を行います。
