@@ -26,9 +26,9 @@ export class ResourceLambda {
 
     /**
      * Lambdaリソースを作成するための初期化を行います。
-     * @param iamRole ラムダ実行ロール
-     * @param functionName Lambda関数名
-     * @param codeFile Lambdaソースコードファイル
+     * @param _iamRole ラムダ実行ロール
+     * @param _functionName Lambda関数名
+     * @param _codeFile Lambdaソースコードファイル
      */
     constructor(_iamRole: string, _functionName: string, _codeFile: string){
         this.iamRole = _iamRole;
