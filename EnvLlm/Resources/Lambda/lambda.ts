@@ -22,7 +22,7 @@ export class ResourceLambda {
      * Lambdaランタイム
      * 基本的にpythonのみを想定しているため固定
      */
-    private readonly RUNTIME = "python3.12";
+    private readonly RUNTIME = "python3.9";
 
     /**
      * Lambdaリソースを作成するための初期化を行います。
@@ -50,7 +50,7 @@ export class ResourceLambda {
             codeZip = archive.getFile({
                 type: "zip",
                 sourceFile: this.codeFile,
-                outputPath: "lambda.zip"
+                outputPath: "./Resources/Lambda/LambdaSrc/zip/python/lambda.zip"
             });
         }catch(e){
             console.log("zipファイル作成中にエラーが発生しました。");
@@ -63,14 +63,14 @@ export class ResourceLambda {
 
         // Lambdaリソースを作成します。
         lambdaFunction = new aws.lambda.Function(this.functionName,{
-            code: new assert.FileArchive("lambda.zip"),
+            code: new assert.FileArchive("./Resources/Lambda/LambdaSrc/zip/python/lambdafunc.zip"),
             name: this.functionName,
             role: this.iamRole,
             sourceCodeHash: codeZip.then(lambda => lambda.outputBase64sha256),
+            handler: "lambdaFunc.lambda_handler",
             runtime: this.RUNTIME,
             loggingConfig: {
                 logFormat: "Text",
-                systemLogLevel: "INFO"
             }
         },{
             provider: _provider,
