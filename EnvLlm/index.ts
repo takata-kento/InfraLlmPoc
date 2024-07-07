@@ -5,13 +5,11 @@ import * as lambda from "./Resources/Lambda/lambda";
 
 const config = new pulumi.Config();
 
-// AssumeRoleするIAMロール名を設定
-const roleToAssumeARN = config.require("RoleCicdInfraLlmPoc");
 
 // AssumeRoleするためのリソースプロバイダを定義
 const provider = new aws.Provider("privileged", {
     assumeRole: {
-        roleArn: roleToAssumeARN,
+        roleArn: "arn:aws:iam::369426526537:role/RoleCicdInfraLlmPoc",
         sessionName: "PulumiSession",
         externalId: "PulumiApplication",
     },
@@ -19,7 +17,7 @@ const provider = new aws.Provider("privileged", {
 });
 
 // Lambdaの作成
-const iamRole = "RoleLambdaAppLlmPoc";
+const iamRole = "arn:aws:iam::369426526537:role/RoleLambdaAppLlmPoc";
 const lambdaResourceSetting = new lambda.ResourceLambda(iamRole, "funcLlmPoc", "./Resources/Lambda/LambdaSrc/python/lambdaFunc.py");
 const lambdaFunc = lambdaResourceSetting.create(provider);
 export const funcId = lambdaFunc?.id;
