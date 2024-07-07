@@ -71,7 +71,8 @@ export class ResourceLambda {
             runtime: this.RUNTIME,
             loggingConfig: {
                 logFormat: "Text",
-            }
+            },
+            timeout: 30
         },{
             provider: _provider,
             dependsOn: [
