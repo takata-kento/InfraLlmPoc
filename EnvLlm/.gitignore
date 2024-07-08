@@ -1,2 +1,5 @@
 /bin/
 /node_modules/
+/Resources/Lambda/LambdaSrc/python
+/Resources/Lambda/LambdaSrc/zip
+!/Resources/Lambda/LambdaSrc/python/lambdaFunc.py
