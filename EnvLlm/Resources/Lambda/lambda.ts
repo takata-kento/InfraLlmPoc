@@ -131,5 +131,7 @@ export class ResourceLambda {
         },{
             provider: _provider
         });
+    
+        return this.cloudWatchLogGroup;
     }
 }
