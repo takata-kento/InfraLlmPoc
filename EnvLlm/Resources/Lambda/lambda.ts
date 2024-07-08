@@ -9,20 +9,24 @@ export class ResourceLambda {
     /**
      * 実行ロール
      */
-    private readonly iamRole: string;
+    private iamRole: string;
     /**
      * Lambda関数名
      */
-    private readonly functionName: string;
+    private functionName: string;
     /**
      * Lambdaソースコードファイル
      */
-    private readonly codeFile: string;
+    private codeFile: string;
+    /**
+     * CloudWatchLogs ロググループリソース
+     */
+    private cloudWatchLogGroup: LogGroup | null = null;
     /**
      * Lambdaランタイム
      * 基本的にpythonのみを想定しているため固定
      */
-    private readonly RUNTIME = "python3.9";
+    private RUNTIME = "python3.9";
 
     /**
      * Lambdaリソースを作成するための初期化を行います。
@@ -33,6 +37,38 @@ export class ResourceLambda {
     constructor(_iamRole: string, _functionName: string, _codeFile: string){
         this.iamRole = _iamRole;
         this.functionName = _functionName; this.codeFile = _codeFile;
+    }
+
+    /**
+     * Lambdaリソースに設定するIAMロールARNを取得します。
+     * @returns IAMロールARN
+     */
+    get getIamRole(): string{
+        return this.iamRole;
+    }
+
+    /**
+     * Lambdaリソースに設定する関数名を取得します。
+     * @returns Lambda関数名
+     */
+    get getFunctionName(): string{
+        return this.functionName;
+    }
+
+    /**
+     * Lambdaリソースに設定するソースファイルのディレクトリを取得します。
+     * @returns ソースファイルディレクトリ
+     */
+    get getCodeFile(): string{
+        return this.codeFile;
+    }
+
+    /**
+     * Lambdaリソースに設定するCloudWatchLogsロググループリソースを取得します。
+     * @returns CloudWatchLogsロググループリソース
+     */
+    get getCloudWatchLogGroup(): LogGroup | null{
+        return this.cloudWatchLogGroup;
     }
 
     /**
@@ -89,7 +125,7 @@ export class ResourceLambda {
      * @returns CloudWatchLogsのロググループリソースを表すインスタンス
      */
     private createCloudWatchForLambda(_provider: aws.Provider): LogGroup{
-        return new aws.cloudwatch.LogGroup(this.functionName,{
+        this.cloudWatchLogGroup = new aws.cloudwatch.LogGroup(this.functionName,{
             name: `/aws/lambda/${this.functionName}`,
             retentionInDays: 14
         },{
