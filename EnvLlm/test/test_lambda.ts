@@ -23,16 +23,22 @@ pulumi.runtime.setMocks({
 );
 
 describe("Infrastructure", function() {
-    let lambda_logconfig: ResourceLambda = new ResourceLambda("arn:aws:iam::123456789012:role/RoleCicdInfraLlmPoc","lambda_logconfig","lambdaFunc.zip");;
-    const provider = new aws.Provider("privileged", {
-        assumeRole: {
-            roleArn: "arn:aws:iam::123456789012:role/RoleCicdInfraLlmPoc",
-            sessionName: "PulumiSession",
-            externalId: "PulumiApplication",
-        },
-    });
+    let lambda_logconfig: ResourceLambda;
+    let provider: aws.Provider;
 
     describe("#lambda_logconfig",function() {
+        before(function() {
+            lambda_logconfig = new ResourceLambda("arn:aws:iam::123456789012:role/RoleCicdInfraLlmPoc","lambda_logconfig","lambdaFunc.zip");
+
+            provider = new aws.Provider("privileged", {
+                assumeRole: {
+                    roleArn: "arn:aws:iam::123456789012:role/RoleCicdInfraLlmPoc",
+                    sessionName: "PulumiSession",
+                    externalId: "PulumiApplication",
+                },
+            });
+        })
+
         it("check log config", function(done) {
             let lambda_resource = lambda_logconfig.create(provider);
             pulumi.all([lambda_resource?.urn, lambda_resource?.loggingConfig]).apply(([urn, loggingConfig]) => {
