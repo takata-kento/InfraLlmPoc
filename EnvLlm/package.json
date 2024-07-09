@@ -2,7 +2,10 @@
     "name": "EnvLlm",
     "main": "index.ts",
     "devDependencies": {
+        "@types/mocha": "^10.0.7",
         "@types/node": "^18",
+        "mocha": "^10.6.0",
+        "ts-node": "^10.9.2",
         "typescript": "^5.0.0"
     },
     "dependencies": {
